@@ -429,70 +429,70 @@
         // Calculation Functions
         
     function calculateNewton() {
-        const T0 = parseFloat(document.getElementById('newton-input').value);
-        const Ts = parseFloat(document.getElementById('newton-ambient').value);
-        const k = parseFloat(document.getElementById('newton-k').value);
-        const Tt = parseFloat(document.getElementById('newton-final-temp').value);
-        const elapsedTime = parseFloat(document.getElementById('newton-elapsed-time').value);
-        const time = parseFloat(document.getElementById('newton-time').value);
+    const T0 = parseFloat(document.getElementById('newton-input').value);
+    const Ts = parseFloat(document.getElementById('newton-ambient').value);
+    const k = parseFloat(document.getElementById('newton-k').value);
+    const Tt = parseFloat(document.getElementById('newton-final-temp').value);
+    const elapsedTime = parseFloat(document.getElementById('newton-elapsed-time').value);
+    const time = parseFloat(document.getElementById('newton-time').value);
 
-        // Validation: Ensure required inputs are provided
-        if (isNaN(T0) || isNaN(Ts) || isNaN(time)) {
-            document.getElementById('newton-result').textContent = "Please enter valid values for initial temperature, ambient temperature, and time.";
+    // Validation: Ensure required inputs are provided
+    if (isNaN(T0) || isNaN(Ts) || isNaN(time)) {
+        document.getElementById('newton-result').textContent = "Please enter valid values for initial temperature, ambient temperature, and time.";
+        return;
+    }
+
+    let rateConstant = k;
+
+    // Calculate k if not provided, using T(t) and elapsed time
+    if (isNaN(k)) {
+        if (isNaN(Tt) || isNaN(elapsedTime)) {
+            document.getElementById('newton-result').textContent = "Please provide either k or both final temperature and elapsed time.";
             return;
         }
-
-        let rateConstant = k;
-
-        // Calculate k if not provided, using T(t) and elapsed time
-        if (isNaN(k)) {
-            if (isNaN(Tt) || isNaN(elapsedTime)) {
-                document.getElementById('newton-result').textContent = "Please provide either k or both final temperature and elapsed time.";
-                return;
-            }
-            const fraction = (Tt - Ts) / (T0 - Ts);
-            if (fraction <= 0) {
-                document.getElementById('newton-result').textContent = "Invalid values for final temperature or elapsed time.";
-                return;
-            }
-            rateConstant = -Math.log(fraction) / elapsedTime;
-        }
-
-        // Calculate the temperature at the given time
-        const result = Ts + (T0 - Ts) * Math.exp(-rateConstant * time);
-        document.getElementById('newton-result').textContent = "Calculated Temperature: ${result.toFixed(2)}";
-
-    }
-    function calculateGrowthDecay() {
-        const N0 = parseFloat(document.getElementById('growth-input').value); // Initial amount
-        const N_t = parseFloat(document.getElementById('growth-final-amount').value); // Final amount after elapsed time
-        const time = parseFloat(document.getElementById('growth-elapsed-time').value); // Elapsed time
-        const k = parseFloat(document.getElementById('growth-k').value); // Growth/decay constant (optional)
-        const futureTime = parseFloat(document.getElementById('growth-time').value); // Future time to calculate population
-
-        // Validation: Ensure required inputs are provided
-        if (isNaN(N0) || isNaN(N_t) || isNaN(time) || isNaN(futureTime)) {
-            document.getElementById('growth-decay-result').textContent = "Please enter valid values for initial amount, final amount, elapsed time, and future time.";
+        const fraction = (Tt - Ts) / (T0 - Ts);
+        if (fraction <= 0) {
+            document.getElementById('newton-result').textContent = "Invalid values for final temperature or elapsed time.";
             return;
         }
-
-        let calculatedK;
-        
-       // If growth constant k is not provided, calculate it using the given final amount after elapsed time
-       if (isNaN(k)) {
-            calculatedK = Math.log(N_t / N0) / time;
-        } else {
-            calculatedK = k;
-        }
-
-       // Calculate the population at the future time
-const futurePopulation = N0 * Math.exp(calculatedK * futureTime);
-
-// Check if the population is a whole number, and if not, add 1 to the result
-const roundedPopulation = (futurePopulation % 1 !== 0) ? Math.ceil(futurePopulation) : futurePopulation;
-
-document.getElementById('growth-decay-result').textContent = "The population after ${futureTime} years will be approximately ${roundedPopulation} people.";
+        rateConstant = -Math.log(fraction) / elapsedTime;
     }
+
+    // Calculate the temperature at the given time
+    const result = Ts + (T0 - Ts) * Math.exp(-rateConstant * time);
+    document.getElementById('newton-result').textContent = "Calculated Temperature: " + result.toFixed(2);
+}
+
+function calculateGrowthDecay() {
+    const N0 = parseFloat(document.getElementById('growth-input').value); // Initial amount
+    const N_t = parseFloat(document.getElementById('growth-final-amount').value); // Final amount after elapsed time
+    const time = parseFloat(document.getElementById('growth-elapsed-time').value); // Elapsed time
+    const k = parseFloat(document.getElementById('growth-k').value); // Growth/decay constant (optional)
+    const futureTime = parseFloat(document.getElementById('growth-time').value); // Future time to calculate population
+
+    // Validation: Ensure required inputs are provided
+    if (isNaN(N0) || isNaN(N_t) || isNaN(time) || isNaN(futureTime)) {
+        document.getElementById('growth-decay-result').textContent = "Please enter valid values for initial amount, final amount, elapsed time, and future time.";
+        return;
+    }
+
+    let calculatedK;
+    
+    // If growth constant k is not provided, calculate it using the given final amount after elapsed time
+    if (isNaN(k)) {
+        calculatedK = Math.log(N_t / N0) / time;
+    } else {
+        calculatedK = k;
+    }
+
+    // Calculate the population at the future time
+    const futurePopulation = N0 * Math.exp(calculatedK * futureTime);
+
+    // Check if the population is a whole number, and if not, add 1 to the result
+    const roundedPopulation = (futurePopulation % 1 !== 0) ? Math.ceil(futurePopulation) : futurePopulation;
+
+    document.getElementById('growth-decay-result').textContent = 'The population after ' + futureTime + ' years will be approximately ' + roundedPopulation + ' people.';
+}
 </script>
 
 
