@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math in Motion - Differential Equations</title>
+    <style>
+        body {
+            font-family: 'Georgia', sans-serif;
+            font-size: 2rem;
+            background-color: #567C8D;
+            color: #567C8D;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .hidden {
+            display: none !important;
+        }
+        .page {
+            padding: 20px;
+            min-height: calc(100vh - 100px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease-in-out;
+        }
+        button {
+            font-size: 1rem;
+            background-color: #567C8D;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 10px;
+            transition: background-color 0.3s ease-in-out, transform 0.2s;
+        }
+        button:hover {
+            background-color: #456B7C;
+            transform: translateY(-4px);
+        }
+        button:active {
+            transform: translateY(2px);
+        }
+        
+        .back-btn {
+            background-color: #F5EFEB;
+            color: #567C8D;
+        }
+        .back-btn:hover {
+            background-color: #E4DED8;
+            transform: translateY(-4px);
+        }
+        .calculation-page {
+            background-image: url(graph.jpg);
+            background-color: white;
+            color: #567C8D;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 600px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
+        }
+        #quote {
+            font-size: 1.2rem;
+            margin: 20px;
+            text-align: center;
+            color: #333;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        #giveUpQuote {
+            font-size: 3rem;
+            margin: 20px;
+            text-align: center;
+            color: #333;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        input {
+            padding: 8px;
+            margin: 10px;
+            width: 200px;
+            border: 1px solid #567C8D;
+            border-radius: 4px;
+            transition: border-color 0.2s;
+        }
+        input:focus {
+            border-color: #456B7C;
+            outline: none;
+        }
+        h1, h2, h3, p {
+            text-align: center;
+            font-weight: bold;
+        }
+        #cover-page {
+            background-image: url(graph.jpg);
+            background-color: #567C8D;
+            color: #333;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        #next-page {
+            background-image: url(blue.jpg);
+            background-color: #BAD6EB;
+        }
+        #give-up {
+            background-color: #F5EFEB;
+            text-align: center;
+        }
+        h1 {
+            font-size: 3rem;
+            color: #567C8D;
+        }
+        footer {
+            color: #333;
+            background-color: #567C8D;
+            color: #ebedf5;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 1rem;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .input-group {
+            margin: 10px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        label {
+            margin-bottom: 5px;
+        }
+        .result {
+            font-weight: bold;
+            margin-top: 15px;
+            color: #567C8D;
+        }
+
+        /* Animated Entrance for Pages */
+        .page-enter {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Animated Buttons */
+        .button {
+            animation: bounceIn 0.5s ease-in-out forwards;
+        }
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.5);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+   <!-- Cover Page Section -->
+<div id="cover-page" class="page">
+    <div style="text-align: center; margin-top: 10px;">
+        <!-- School Logo (Make sure to replace with the actual path of your logo) -->
+        <img src="logo.jpg" alt="Cebu Technological University Logo" style="width: 100px; height: auto;">
+        
+        <!-- School Name -->
+        <h1 style="font-size: 24px; font-weight: bold; margin-top: 10px;">Cebu Technological University - Danao Campus</h1>
+    </div>
+
+    <!-- Main Cover Content -->
+    <h2 style="font-size: 5rem; color: #567C8D;">Math in Motion</h2>
+    <p style="font-size: 2rem; color: #567C8D;">Explore Newton's Law of Cooling/Heating & Growth and Decay calculations!</p>
+    <button class="button" onclick="goToPage('next-page')">Proceed</button>
+    <div id="quote"></div>
+</div>
+    
+
+
+    <!-- Next Page (Welcome and Buttons) -->
+    <div id="next-page" class="page hidden page-enter">
+        <h2>Welcome!</h2>
+        <button class="button" onclick="showSection('diff-section')">About this Website</button>
+        <button class="button" onclick="showSection('definitions-section')">Definitions and Real-World Significance</button>
+        <button class="button" onclick="showSection('newton-section')">Newton's Law of Cooling/Heating</button>
+        <button class="button" onclick="showSection('growth-decay-section')">Growth and Decay</button>
+        <button class="button" onclick="goToPage('give-up')">Give Up</button>
+        <button class="button" onclick="goToPage('creator-section')">About the Creator</button>
+        <!-- Back Button to Go to Cover Page -->       
+        <button class="back-btn" onclick="goToPage('cover-page')">Back</button>
+    </div>
+    </div>
+
+    <!-- About Section -->
+<div id="diff-section" class="calculation-page hidden">
+    <h3>About This Website</h3>
+    <div style="background-color: #f9f9f9;font-size:large ; padding: 20px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 600px; margin: 0 auto;">
+        <p>This website is designed to help you understand and solve common mathematical problems involving differential equations- 
+        Newton's Law of Cooling/Heating, and Growth and Decay. It provides a simple interface to input parameters such as initial 
+        values, rate constants, and time to perform calculations.</p>
+
+        <p>By entering values for different variables, you can calculate the results of real-world scenarios, such as cooling or 
+        heating of objects, population growth, and more. These calculations are based on well-established mathematical formulas 
+        such as exponential growth and Newton's Law of Cooling.</p>
+        <p>Scope and Limitation </p>
+        <p> The implemented tools provide reliable and straightforward calculations for predicting temperatures using Newton's Law of Cooling/Heating and population changes with Growth and Decay equations. They also allow users to compute essential constants, such as the cooling/heating constant and growth/decay constant, making them versatile for scientific and practical applications. These tools can assist in analyzing dynamic systems, such as thermal behavior or population trends, with ease and accuracy.</p>
+        <p>However, their functionality is limited to the specific calculations mentioned. They cannot perform operations beyond these scopes, and their accuracy relies on the user providing realistic and accurate input data. Despite these constraints, the tools excel within their intended purpose, offering a user-friendly platform for precise computational needs in their respective domains.</p>
+        <p>Start by choosing the type of calculation you want to explore and input your desired parameters to see the results!</p>
+
+         </div>
+    <button class="back-btn" onclick="goBack('next-page')">Back</button>
+</div>
+
+
+!-- Definitions and Real-World Significance Section -->
+<div id="definitions-section" class="calculation-page hidden">
+    <h3>Definitions and Real-World Significance</h3>
+
+    <!-- Differential Equations Box -->
+    <div style="background-color: #f9f9f9; padding: 20px;font-size: large; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 600px; margin: 20px auto;">
+        <h4>Differential Equations</h4>
+        <p><strong></strong> A differential equation is an equation that involves an unknown function and its derivatives. 
+        It describes the relationship between the function and its rates of change.</p>
+        <p><strong></strong> Differential equations are used in a wide range of fields such as physics, biology, economics, 
+        and engineering. They help model systems that change over time, like population growth, heat conduction, and the motion of objects.</p>
+    </div>
+
+    <!-- Newton's Cooling/Heating Box -->
+    <div style="background-color: #f9f9f9; padding: 20px; font-size: large; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 600px; margin: 20px auto;">
+        <h4>Newton's Law of Cooling/Heating</h4>
+        <p><strong></strong> Newton's Law of Cooling/Heating describes the rate at which an object changes temperature in relation to the 
+        temperature of its surroundings. It states that the rate of change of the temperature of an object is proportional to the difference between 
+        its temperature and the ambient temperature.</p>
+        <p><strong></strong> This law is significant in many practical situations such as cooling of beverages, heating in 
+        buildings, and the cooling of engines or electronic devices. It helps engineers and scientists understand how heat transfer occurs in various contexts.</p>
+    </div>
+
+    <!-- Growth and Decay Box -->
+    <div style="background-color: #f9f9f9; padding: 20px; font-size: large; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 600px; margin: 20px auto;">
+        <h4>Growth and Decay</h4>
+        <p><strong></strong> Growth and decay are processes that can be modeled by exponential functions. Growth describes the increase in 
+        quantity, such as population or money, whereas decay refers to a decrease, such as radioactive decay or the depreciation of an asset.</p>
+        <p><strong></strong> The concept of growth and decay is crucial in many fields, including biology (population modeling), 
+        medicine (drug decay), and finance (compound interest). It helps predict future trends based on current rates of change.</p>
+    </div>
+
+    <button class="back-btn" onclick="goBack('next-page')">Back</button>
+</div>
+   <!-- Newton's Law Section -->
+<div id="newton-section" class="calculation-page hidden page-enter">
+    <h3>Calculation: Newton's Law of Cooling/Heating</h3>
+
+    <!-- Inputs for Initial Temperature and Ambient Temperature -->
+    <div class="input-group">
+        <label for="newton-input">Initial Temperature (T₀):</label>
+        <input type="number" id="newton-input" placeholder="Enter initial temperature" />
+    </div>
+    <div class="input-group">
+        <label for="newton-ambient">Ambient Temperature (Ta):</label>
+        <input type="number" id="newton-ambient" placeholder="Enter surrounding temperature" />
+    </div>
+
+    <!-- Inputs for Cooling/Heating Constant or Calculated k -->
+    <div class="input-group">
+        <label for="newton-k">Cooling/Heating Constant (k) (optional):</label>
+        <input type="number" id="newton-k" placeholder="Enter rate constant" />
+    </div>
+
+    <!-- New Inputs for Final Temperature and Elapsed Time -->
+    <div class="input-group">
+        <label for="newton-final-temp">Final Temperature (T(t)) (optional):</label>
+        <input type="number" id="newton-final-temp" placeholder="Enter final temperature" />
+    </div>
+    <div class="input-group">
+        <label for="newton-elapsed-time">Elapsed Time (t) (optional):</label>
+        <input type="number" id="newton-elapsed-time" placeholder="Enter elapsed time" />
+    </div>
+
+    <!-- Input for Time at which to Calculate Temperature -->
+    <div class="input-group">
+        <label for="newton-time">Time (t):</label>
+        <input type="number" id="newton-time" placeholder="Enter time to calculate temperature" />
+    </div>
+
+    <button onclick="calculateNewton()">Calculate</button>
+    <p id="newton-result" class="result"></p>
+    <button class="back-btn" onclick="goBack('next-page')">Back</button>
+</div>
+
+<!-- Growth and Decay Section -->
+<div id="growth-decay-section" class="calculation-page hidden page-enter">
+    <h3>Calculation: Growth and Decay</h3>
+
+    <!-- Inputs for Initial Amount -->
+    <div class="input-group">
+        <label for="growth-input">Initial Amount (N₀):</label>
+        <input type="number" id="growth-input" placeholder="Enter initial amount" />
+    </div>
+
+    <!-- Input for Final Amount after time t -->
+    <div class="input-group">
+        <label for="growth-final-amount">Final Amount (N(t)): (After a known time)</label>
+        <input type="number" id="growth-final-amount" placeholder="Enter final amount" />
+    </div>
+
+    <!-- Input for Elapsed Time -->
+    <div class="input-group">
+        <label for="growth-elapsed-time">Elapsed Time (t) (in years):</label>
+        <input type="number" id="growth-elapsed-time" placeholder="Enter elapsed time" />
+    </div>
+
+    <!-- Optional Input for Growth/Decay Constant (k) -->
+    <div class="input-group">
+        <label for="growth-k">Growth/Decay Constant (k) (optional):</label>
+        <input type="number" id="growth-k" placeholder="Enter growth/decay constant" />
+    </div>
+
+    <!-- Input for Future Time (optional) -->
+    <div class="input-group">
+        <label for="growth-time">Time (t) for future population (in years):</label>
+        <input type="number" id="growth-time" placeholder="Enter future time to calculate population" />
+    </div>
+
+    <button onclick="calculateGrowthDecay()">Calculate</button>
+    <p id="growth-decay-result" class="result"></p>
+    <button class="back-btn" onclick="goBack('next-page')">Back</button>
+</div>
+    <!-- Give Up Page -->
+    <div id="give-up" class="page hidden page-enter">
+        <h2>Don't Give Up! ･.✧:˚｡･﹆ׂׂ･.</h2>
+        <div id="giveUpQuote"></div>
+        <button class="back-btn" onclick="goBack('next-page')">Back</button>
+    </div>
+   <!-- Creator Section -->
+<div id="creator-section" class="page hidden">
+    <div style="background-color: #ffffff; font-size: 1rem; padding: 20px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); max-width: 600px; margin: 0 auto;">
+        <h2>About the Creator</h2>
+        <p>This website was developed by <strong>Marien Genson</strong>, a second-year Bachelor of Science in Computer Engineering (BSCPE) student, as part of the completion requirements for the Differential Equation subject. Special thanks and credits to Engr. Ramel H. Sigue for the guidance and support throughout the development of this project. To God be all the Glory.</p>
+    </div>
+    <button class="back-btn" onclick="goBack('next-page')" style="position: relative; right: 0; padding: 10px 15px; margin-top: 20px;">Back</button>
+</div>
+
+
+    <footer>
+        <p>&copy; 2024 Math in Motion by Marien Genson | Engr. Ramel H. Sigue</p>
+    </footer>
+
+    <script>
+        // Motivational Quotes
+        const motivationalQuotes = [
+            "Strive for progress, not perfection.",
+            "Believe in yourself and all that you are.",
+            "Success is the sum of small efforts, repeated day in and day out.",
+            "Hard work beats talent when talent doesn't work hard.",
+            "The future depends on what we do in the present.",
+            "Believe you can and you're halfway there.",
+            "You’re closer than you think. Don’t stop now.",
+            "Believe in the person you are becoming through this journey.",
+            "Giving up is the only sure way to fail.",
+            "Don’t quit. Suffer now and live the rest of your life as a champion.",
+            "It’s okay to rest. It’s okay to pause. But never let giving up be the final step.",
+            "When you feel like giving up, remember why you started."
+        ];
+
+        // Show initial quote on page load
+        window.onload = function() {
+            showQuote();
+            showGiveUpQuote(); // Also initialize the give up quote
+        };
+
+        function showQuote() {
+            const randomIndex = Math.floor(Math.random() * motivationalQuotes.length);
+            document.getElementById('quote').textContent = motivationalQuotes[randomIndex];
+        }
+
+        function showGiveUpQuote() {
+            const randomIndex = Math.floor(Math.random() * motivationalQuotes.length);
+            document.getElementById('giveUpQuote').textContent = motivationalQuotes[randomIndex];
+        }
+
+        // Page Navigation Functions
+        function goToPage(pageId) {
+            document.querySelectorAll('.page, .calculation-page').forEach(page => {
+                page.classList.add('hidden');
+            });
+            document.getElementById(pageId).classList.remove('hidden');
+            document.getElementById(pageId).classList.add('page-enter');
+            if (pageId === 'give-up') {
+                showGiveUpQuote(); // Show new quote when navigating to give up page
+            }
+        }
+
+        function goBack(pageId) {
+            document.querySelectorAll('.page, .calculation-page').forEach(page => {
+                page.classList.add('hidden');
+            });
+            document.getElementById(pageId).classList.remove('hidden');
+        }
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.page, .calculation-page').forEach(page => {
+                page.classList.add('hidden');
+            });
+            document.getElementById(sectionId).classList.remove('hidden');
+        }
+
+        // Calculation Functions
+        
+    function calculateNewton() {
+        const T0 = parseFloat(document.getElementById('newton-input').value);
+        const Ts = parseFloat(document.getElementById('newton-ambient').value);
+        const k = parseFloat(document.getElementById('newton-k').value);
+        const Tt = parseFloat(document.getElementById('newton-final-temp').value);
+        const elapsedTime = parseFloat(document.getElementById('newton-elapsed-time').value);
+        const time = parseFloat(document.getElementById('newton-time').value);
+
+        // Validation: Ensure required inputs are provided
+        if (isNaN(T0) || isNaN(Ts) || isNaN(time)) {
+            document.getElementById('newton-result').textContent = "Please enter valid values for initial temperature, ambient temperature, and time.";
+            return;
+        }
+
+        let rateConstant = k;
+
+        // Calculate k if not provided, using T(t) and elapsed time
+        if (isNaN(k)) {
+            if (isNaN(Tt) || isNaN(elapsedTime)) {
+                document.getElementById('newton-result').textContent = "Please provide either k or both final temperature and elapsed time.";
+                return;
+            }
+            const fraction = (Tt - Ts) / (T0 - Ts);
+            if (fraction <= 0) {
+                document.getElementById('newton-result').textContent = "Invalid values for final temperature or elapsed time.";
+                return;
+            }
+            rateConstant = -Math.log(fraction) / elapsedTime;
+        }
+
+        // Calculate the temperature at the given time
+        const result = Ts + (T0 - Ts) * Math.exp(-rateConstant * time);
+        document.getElementById('newton-result').textContent = "Calculated Temperature: ${result.toFixed(2)}";
+
+    }
+    function calculateGrowthDecay() {
+        const N0 = parseFloat(document.getElementById('growth-input').value); // Initial amount
+        const N_t = parseFloat(document.getElementById('growth-final-amount').value); // Final amount after elapsed time
+        const time = parseFloat(document.getElementById('growth-elapsed-time').value); // Elapsed time
+        const k = parseFloat(document.getElementById('growth-k').value); // Growth/decay constant (optional)
+        const futureTime = parseFloat(document.getElementById('growth-time').value); // Future time to calculate population
+
+        // Validation: Ensure required inputs are provided
+        if (isNaN(N0) || isNaN(N_t) || isNaN(time) || isNaN(futureTime)) {
+            document.getElementById('growth-decay-result').textContent = "Please enter valid values for initial amount, final amount, elapsed time, and future time.";
+            return;
+        }
+
+        let calculatedK;
+        
+       // If growth constant k is not provided, calculate it using the given final amount after elapsed time
+       if (isNaN(k)) {
+            calculatedK = Math.log(N_t / N0) / time;
+        } else {
+            calculatedK = k;
+        }
+
+       // Calculate the population at the future time
+const futurePopulation = N0 * Math.exp(calculatedK * futureTime);
+
+// Check if the population is a whole number, and if not, add 1 to the result
+const roundedPopulation = (futurePopulation % 1 !== 0) ? Math.ceil(futurePopulation) : futurePopulation;
+
+document.getElementById('growth-decay-result').textContent = "The population after ${futureTime} years will be approximately ${roundedPopulation} people.";
+    }
+</script>
+
+
+</body>
+</html>
